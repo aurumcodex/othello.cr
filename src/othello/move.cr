@@ -28,17 +28,54 @@ class Move
     end
   end
 
+  def weight
+    Util::WEIGHTS[self.cell]
+  end
+
   def display(color)
     # self.format(stdout)
-    print "#{color} #{Util.get_col(@cell)} #{Util.get_row(@cell)}"
+    print "#{Util.shorten(color)} #{Util.get_col(@cell)} #{Util.get_row(@cell)} | "
+    print "num flips: #{@num_flips} | "
+    puts "direction: #{@direction}"
   end
 end
 
 module Movelist
   def get_legal_move(index, dir, color) : Move
+    flips = 0
+    m = Move.new
+    wall = false
+
+    while index >= 0 && index < Util::BOARD_SIZE && !wall
+      wall = check_wall(index, dir)
+      index += dir.value
+
+      if index >= 0 && index < Util::BOARD_SIZE
+        if self.field[index] != color.invert
+          break
+        else
+          flips += 1
+        end
+      else
+        flips = 0
+        break
+      end
+    end
+
+    if index >= 0 &&
+       index < Util::BOARD_SIZE &&
+       self.field[index] == Color::None &&
+       flips != 0
+      m.cell = index
+      m.num_flips = flips
+      m.direction = dir
+    end
   end
 
   def generate_moves(color) : Array(Move)
+    result = Array(Move).new
+
+    return result
   end
 end
 
@@ -77,10 +114,10 @@ module Moves
   end
 
   def get_cells(moveset)
-    result : Array(Int32)
-    moveset.each do |cell|
-      result << cell.cell
+    result = Array(Int32).new
+    moveset.each do |mv|
+      result << mv.cell
     end
-    result
+    return result
   end
 end

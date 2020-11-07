@@ -25,11 +25,18 @@ module Othello
       puts "#{i}, #{c}"
     end
 
-    Util.print_char(7, Color::None, "+")
-    Util.print_char(8, Color::None, Util.get_color(Color::None))
+    Util.print_char_color(8, Color::None, Util.shorten(Color::None))
+    Util.print_char_color(7, Color::None, "+")
 
     mv = Move.new
+    mv.display(Color::Black)
     puts mv.is_border?
+    puts 9 + Direction::North.value
+
+    board = Board.new
+    puts typeof(board.field)
+    puts board.field.size
+    puts board.field
   end
 end
 

@@ -1,6 +1,8 @@
 # algorithm.cr
+require "./evaluate"
+
 module Algorithm
-  extend self
+  # extend self # probably don't need to extend self here
 
   def alpha_beta(alpha, beta, color, depth, maxing, debug)
   end

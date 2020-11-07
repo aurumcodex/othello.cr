@@ -69,7 +69,7 @@ module Util
   extend self
 
   BOARD_SIZE = 64
-  MAX_DEPTH  = 15
+  MAX_DEPTH  = 15 # 15 plies for now; will see what preformance is like
 
   DIRECTIONS = Array{
     Direction::NWest,
@@ -130,7 +130,17 @@ module Util
     SWest => "South West",
   }
 
-  def print_char(index, color, str)
+  def print_char(index, color, str, colorized?)
+    if colorized?
+      print_char_color(index, color, str)
+    else
+      print_char_plain(index, color, str)
+    end
+  end
+
+  # need to make a wrapper for this one, and make a "plain" printing method
+  # then make the wrapper take the same params, but an additional "colorize" boolean param
+  def print_char_color(index, color, str)
     if index % 8 == 7
       case color
       when Color::Black
@@ -162,7 +172,7 @@ module Util
     end
   end
 
-  def get_color(color) : String
+  def shorten(color) : String
     case color
     when Color::Black
       return "B"
