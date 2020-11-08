@@ -8,10 +8,19 @@ class Player
   property human : Bool
   property passing : Bool
 
-  def initialize(color, human)
-    @color = color
-    @human = human
+  def initialize
+    @color = Color::None
+    @human = false
     @passing = false
+  end
+
+  def Player.setup(color, human) : Player
+    player = Player.new
+    player.color = color
+    player.human = human
+    player.passing = false
+
+    return player
   end
 
   def get_input(cells, opponent)
@@ -33,13 +42,10 @@ class Player
 
     if ((chars[0] == "B" || chars[0] == "b" && @color.black?) && !cells.empty? && chars.size > 1) ||
        ((chars[0] == "W" || chars[0] == "w" && @color.white?) && !cells.empty? && chars.size > 1)
-      puts chars[0]
-      puts chars[1]
-      puts chars[2]
       col = Util::COLUMNS[chars[1]]
       row = Util::ROWS[chars[2]]
       m = (row * 8) + col
-      puts m
+      puts "player input: #{m}"
       
       if !cells.includes? m
         if human

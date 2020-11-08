@@ -14,26 +14,26 @@ module Bot
     best_move = -1
     depth = 0
     maxing = true
-    alpha = Int32.MIN
-    beta = Int32.MAX
+    alpha = Int32::MIN
+    beta = Int32::MAX
     color = self.color
 
     moveType = MoveType::AlphaBeta
 
     case moveType
-    when RNG
+    when MoveType::RNG
       puts "bot is using an rng move"
-      best_move = board.rng_move(moveset, debug)
-    when AlphaBeta
+      best_move = board.rng_move(moveset)
+    when MoveType::AlphaBeta
       puts "bot is using a move generated from alpha_beta"
-      ab_hash = Hash(Int32, Int32).new
+      ab_hash = Hash(Int32, Int32).new(moveset.size)
 
       moveset.each do |m|
         temp = board
         temp.apply(color, m.cell, debug)
         temp.flip_discs(color, m.direction.invert, m.cell, debug)
 
-        ab_score = temp.alpha_beta(alpha, beta, color.invert, !maxing, debug)
+        ab_score = temp.alpha_beta(alpha, beta, color.invert, depth, !maxing, debug)
         puts "alpha_beta output at cell #{m.cell} :: #{ab_score}"
         ab_hash[m.cell] = ab_score
       end
@@ -47,18 +47,18 @@ module Bot
           best_move = key
         end
       end
-    when Negamax
+    when MoveType::Negamax
       puts "bot is using a move generated from negamax"
-      nm_hash = Hash(Int32, Int32).new
+      nm_hash = Hash(Int32, Int32).new(moveset.size)
 
       moveset.each do |m|
         temp = board
         temp.apply(color, m.cell, debug)
         temp.flip_discs(color, m.direction.invert, m.cell, debug)
 
-        nm_score = temp.negamax(alpha, beta, color.invert, debug)
+        nm_score = temp.negamax(alpha, beta, color.invert, depth, debug)
         puts "alpha_beta output at cell #{m.cell} :: #{nm_score}"
-        ab_hash[m.cell] = ab_score
+        nm_hash[m.cell] = nm_score.as(Int32)
       end
 
       puts "alpha_beta output: #{nm_hash}"
@@ -72,7 +72,7 @@ module Bot
       end
     else
       puts "(the bot shrugged)"
-      best_move = board.rng_move(moveset, debug)
+      best_move = board.rng_move(moveset)
     end
 
     return best_move

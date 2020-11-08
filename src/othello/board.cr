@@ -1,10 +1,11 @@
 # board.cr
-# require "./evaluate"
 require "./algorithm"
+require "./evaluate"
 require "./move"
 
 class Board
   include Algorithm
+  include Evaluation
   include Movelist
 
   @@black_discs = 2
@@ -21,17 +22,24 @@ class Board
   property field : Array(Color)
   property player : Player
   property bot : Player
+  property game_over : Bool
 
-  def initialize(color)
+  def initialize
     @field = Array(Color).new(64, Color::None)
+    @player = Player.new
+    @bot = Player.new
+    @game_over = false
+  end # end initializer
+
+  def setup(color)
     @field[27] = Color::White
     @field[28] = Color::Black
     @field[35] = Color::Black
     @field[36] = Color::White
 
-    @player = Player.new(color, true)
-    @bot = Player.new(color.invert, false)
-  end # end initializer
+    @player = Player.setup(color, true)
+    @bot = Player.setup(color.invert, false)
+  end
 
   def apply(color, cell, debug)
     if self.field[cell] == Color::None

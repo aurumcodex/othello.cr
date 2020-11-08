@@ -18,10 +18,10 @@ module Algorithm
         puts "hit max depth (#{Util::MAX_DEPTH})"
       end
 
-      score = self.calculate_score_weight.score
+      score = self.calc_score_weight.score
     elsif depth < Util::MAX_DEPTH
       if maxing
-        score = Int32.MIN
+        score = Int32::MIN
         moveset = self.generate_moves(color)
 
         moveset.each do |m|
@@ -35,7 +35,7 @@ module Algorithm
 
           value = temp.alpha_beta(alpha, beta, color.invert, depth + 1, !maxing, debug)
 
-          score = Math.max(score, val)
+          score = Math.max(score, value)
           alpha = Math.max(alpha, score)
 
           if alpha >= beta
@@ -43,7 +43,7 @@ module Algorithm
           end
         end # end each
       elsif !maxing
-        score = Int32.MAX
+        score = Int32::MAX
         moveset = self.generate_moves(color)
 
         moveset.each do |m|
@@ -57,7 +57,7 @@ module Algorithm
 
           value = temp.alpha_beta(alpha, beta, color.invert, depth + 1, !maxing, debug)
 
-          score = Math.min(score, val)
+          score = Math.min(score, value)
           beta = Math.min(beta, score)
 
           if alpha >= beta
@@ -79,7 +79,7 @@ module Algorithm
     end
 
     if depth == Util::MAX_DEPTH
-      return color.value * self.calculate_score_weight.score
+      return color.value * self.calc_score_weight.score
     else
       moveset.each do |m|
         if debug
@@ -90,9 +90,9 @@ module Algorithm
         temp.apply(color, m.cell, debug)
         temp.flip_discs(color, m.direction.invert, m.cell, debug)
 
-        val = -temp.negamax(-beta, -alpha, color.invert, depth + 1, debug)
+        value = -temp.negamax(-beta, -alpha, color.invert, depth + 1, debug)
 
-        score = Math.max(score, val)
+        score = Math.max(score, value)
         alpha = Math.max(alpha, score)
 
         if alpha >= beta

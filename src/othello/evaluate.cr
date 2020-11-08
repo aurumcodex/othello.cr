@@ -3,7 +3,9 @@ module Evaluation
   # extend self
 
   struct Scores
-    property black, white, score
+    property black : Int32
+    property white : Int32
+    property score : Int32
 
     def initialize(@black : Int32, @white : Int32)
       @score = @black - @white
@@ -14,7 +16,7 @@ module Evaluation
     black_count = 0
     white_count = 0
 
-    self.board.each do |cell|
+    self.field.each do |cell|
       case cell
       when Color::Black
         black_count += 1
@@ -23,23 +25,23 @@ module Evaluation
       else
       end
     end
-    Score.new(black_count, white_count)
+    Scores.new(black_count, white_count)
   end
 
   def calc_score_weight
     black_count = 0
     white_count = 0
 
-    self.board.each_with_index do |cell, index|
+    self.field.each_with_index do |cell, index|
       case cell
       when Color::Black
-        black_count += WEIGHTS[index]
+        black_count += Util::WEIGHTS[index]
       when Color::White
-        white_count += WEIGHTS[index]
+        white_count += Util::WEIGHTS[index]
       else
       end
-      Score.new(black_count, white_count)
     end
+    Scores.new(black_count, white_count)
   end
 
   def print_results(scores : Scores)
