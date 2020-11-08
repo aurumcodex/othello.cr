@@ -29,7 +29,7 @@ module Bot
       ab_hash = Hash(Int32, Int32).new(moveset.size)
 
       moveset.each do |m|
-        temp = board
+        temp = board.clone
         temp.apply(color, m.cell, debug)
         temp.flip_discs(color, m.direction.invert, m.cell, debug)
 
@@ -52,7 +52,7 @@ module Bot
       nm_hash = Hash(Int32, Int32).new(moveset.size)
 
       moveset.each do |m|
-        temp = board
+        temp = board.clone
         temp.apply(color, m.cell, debug)
         temp.flip_discs(color, m.direction.invert, m.cell, debug)
 
