@@ -1,5 +1,6 @@
 # player.cr
 require "./bot"
+require "./util"
 
 class Player
   def_clone
@@ -91,9 +92,9 @@ class Player
   end
 
   private def handle_skip_black(opponent)
-    if @color.black? && @human
+    if !self.color.black? && @human
       puts "you have no valid moves and must pass. re-enter input"
-      self.handle_skip_black(opponent)
+      self.get_pass_input(opponent)
     end
 
     if @passing
@@ -104,9 +105,9 @@ class Player
   end
 
   private def handle_skip_white(opponent)
-    if @color.white? && @human
+    if !self.color.white? && @human
       puts "you have no valid moves and must pass. re-enter input"
-      self.handle_skip_black(opponent)
+      self.get_pass_input(opponent)
     end
 
     if @passing
