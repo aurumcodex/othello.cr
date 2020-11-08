@@ -31,6 +31,13 @@ class Board
     @game_over = false
   end # end initializer
 
+  protected def initialize(player, bot, field, state)
+    @field = field
+    @player = player
+    @bot = bot
+    @game_over = state
+  end
+
   def setup(color)
     @field[27] = Color::White
     @field[28] = Color::Black
@@ -104,5 +111,15 @@ class Board
 
   def is_game_over?
     return @player.passing && @bot.passing
+  end
+
+  def clone
+    # need to make a perfect bitwise copy of board for algorithms
+    player = @player
+    bot = @bot
+    field = @field
+    state = @game_over
+
+    return Board.new(player, bot, field, state)
   end
 end
