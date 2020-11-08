@@ -52,7 +52,7 @@ class Move
 
   def display(color)
     # self.format(stdout)
-    print "#{Util.shorten(color)} #{Util.get_col(@cell)} #{Util.get_row(@cell)} | "
+    print "#{Util.shorten(color)} #{Util.get_col(@cell)} #{Util.get_row(@cell)} (#{@cell})| "
     print "num flips: #{@num_flips} | "
     puts "direction: #{@direction}"
   end
