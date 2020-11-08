@@ -32,6 +32,24 @@ class Move
     Util::WEIGHTS[self.cell]
   end
 
+  def check_border
+    if Util::LEFT_BORDER.includes? self.cell
+      if self.direction == Direction::West.invert ||
+         self.direction == Direction::NWest.invert ||
+         self.direction == Direction::SWest.invert
+        return true
+      end
+    elsif Util::RIGHT_BORDER.includes? self.cell
+      if self.direction == Direction::East.invert ||
+         self.direction == Direction::NEast.invert ||
+         self.direction == Direction::SEast.invert
+        return true
+      end
+    else
+      return false
+    end
+  end
+
   def display(color)
     # self.format(stdout)
     print "#{Util.shorten(color)} #{Util.get_col(@cell)} #{Util.get_row(@cell)} | "
@@ -41,13 +59,15 @@ class Move
 end
 
 module Movelist
+  # this gets included in Board, thus making the `self` work properly
+
   def get_legal_move(index, dir, color) : Move
     flips = 0
     m = Move.new
     wall = false
 
     while index >= 0 && index < Util::BOARD_SIZE && !wall
-      wall = check_wall(index, dir)
+      wall = Moves.check_wall(index, dir)
       index += dir.value
 
       if index >= 0 && index < Util::BOARD_SIZE
@@ -70,10 +90,24 @@ module Movelist
       m.num_flips = flips
       m.direction = dir
     end
+
+    return m
   end
 
   def generate_moves(color) : Array(Move)
     result = Array(Move).new
+
+    self.field.each_with_index do |val, index|
+      if val == color
+        Util::DIRECTIONS.each do |d|
+          m = self.get_legal_move(index, d, color)
+
+          if m.num_flips != 0 && !m.check_border
+            result << m
+          end
+        end
+      end
+    end
 
     return result
   end

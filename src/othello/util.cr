@@ -130,45 +130,53 @@ module Util
     SWest => "South West",
   }
 
+  NO_MOVES = Array(Move).new
+
   def print_char(index, color, str, colorized?)
     if colorized?
       print_char_color(index, color, str)
     else
-      print_char_plain(index, color, str)
+      print_char_plain(index, str)
     end
   end
 
-  # need to make a wrapper for this one, and make a "plain" printing method
-  # then make the wrapper take the same params, but an additional "colorize" boolean param
-  def print_char_color(index, color, str)
+  private def print_char_color(index, color, str)
     if index % 8 == 7
       case color
       when Color::Black
-        puts " #{str} ".colorize.black.on_green.dim
+        puts " #{str} ".colorize.black.on_green
       when Color::White
-        puts " #{str} ".colorize.white.on_green.dim
+        puts " #{str} ".colorize.white.on_green
       when Color::None
         if str == "+"
-          puts " #{str} ".colorize.blue.on_green.bold.dim
+          puts " #{str} ".colorize.blue.on_green.bold
         else
-          puts " #{str} ".colorize.red.on_green.dim
+          puts " #{str} ".colorize.red.on_green
         end
       else
       end
     else
       case color
       when Color::Black
-        print " #{str}".colorize.black.on_green.dim
+        print " #{str}".colorize.black.on_green
       when Color::White
-        print " #{str}".colorize.white.on_green.dim
+        print " #{str}".colorize.white.on_green
       when Color::None
         if str == "+"
-          print " #{str}".colorize.blue.on_green.bold.dim
+          print " #{str}".colorize.blue.on_green.bold
         else
-          print " #{str}".colorize.red.on_green.dim
+          print " #{str}".colorize.red.on_green
         end
       else
       end
+    end
+  end
+
+  private def print_char_plain(index, str)
+    if index % 8 == 7
+      puts " #{str}"
+    else
+      print " #{str}"
     end
   end
 
