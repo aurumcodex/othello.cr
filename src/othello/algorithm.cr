@@ -19,6 +19,7 @@ module Algorithm
       end
 
       score = self.calc_score_weight.score
+      # exit
     elsif depth < Util::MAX_DEPTH
       if maxing
         score = Int32::MIN
@@ -48,7 +49,7 @@ module Algorithm
 
         moveset.each do |m|
           if debug
-            puts "legal cell = #{m.cell}"
+            puts "legal cell = #{m.cell} | direction : #{m.direction.invert}"
           end
 
           temp = self

@@ -59,7 +59,7 @@ class Board
   def flip_discs(color, dir, cell, debug)
     temp = cell
 
-    while temp >= 0 && cell < 64
+    while temp >= 0 && temp < 64
       temp = temp + dir.value
 
       if debug
@@ -77,6 +77,7 @@ class Board
           self.field[temp] = color
           # puts "temp = #{temp} | #{self.field[temp]} | shouldn't break"
         end
+      else
       end
     end
   end

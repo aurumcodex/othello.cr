@@ -69,7 +69,7 @@ module Util
   extend self
 
   BOARD_SIZE = 64
-  MAX_DEPTH  = 15 # 15 plies for now; will see what preformance is like
+  MAX_DEPTH  =  9 # 15 plies for now; will see what preformance is like (21's too deep, apparently)
 
   DIRECTIONS = Array{
     Direction::NWest,
