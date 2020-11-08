@@ -31,9 +31,9 @@ module Algorithm
           end
 
           temp = self.clone
-          puts self.field
-          puts temp.field
-          exit
+          # puts self.field
+          # puts temp.field
+          # exit
           temp.apply(color, m.cell, debug)
           temp.flip_discs(color, m.direction.invert, m.cell, debug)
 

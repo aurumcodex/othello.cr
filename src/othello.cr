@@ -12,7 +12,7 @@ module Othello
   def main
     turn_count = 0
     human = true
-    debug = true
+    debug = false
 
     puts "what color do you want to play as? (black or white)"
     input = gets.not_nil!.chomp

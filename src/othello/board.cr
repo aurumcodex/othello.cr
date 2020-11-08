@@ -4,6 +4,8 @@ require "./evaluate"
 require "./move"
 
 class Board
+  def_clone
+
   include Algorithm
   include Evaluation
   include Movelist
@@ -75,7 +77,7 @@ class Board
       end
 
       if temp < 64
-        puts "temp = #{temp} | #{self.field[temp]}"
+        # puts "temp = #{temp} | #{self.field[temp]}"
         if self.field[temp] == color
           # puts "temp = #{temp} | #{self.field[temp]} | should break"
           break
@@ -113,13 +115,13 @@ class Board
     return @player.passing && @bot.passing
   end
 
-  def clone
-    # need to make a perfect bitwise copy of board for algorithms
-    player = @player
-    bot = @bot
-    field = @field
-    state = @game_over
+  # def clone
+  #   # need to make a perfect bitwise copy of board for algorithms
+  #   player = @player
+  #   bot = @bot
+  #   field = @field
+  #   state = @game_over
 
-    return Board.new(player, bot, field, state)
-  end
+  #   return Board.new(player, bot, field, state)
+  # end
 end

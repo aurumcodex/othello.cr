@@ -2,6 +2,8 @@
 require "./bot"
 
 class Player
+  def_clone
+
   include Bot
 
   property color : Color
