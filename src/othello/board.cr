@@ -64,13 +64,18 @@ class Board
 
       if debug
         puts "current cell: #{temp}"
+        self.display(Util::NO_MOVES, true)
       end
 
       if temp < 64
+        puts "temp = #{temp} | #{self.field[temp]}"
         if self.field[temp] == color
+          # puts "temp = #{temp} | #{self.field[temp]} | should break"
           break
+          # exit
         else
           self.field[temp] = color
+          # puts "temp = #{temp} | #{self.field[temp]} | shouldn't break"
         end
       end
     end

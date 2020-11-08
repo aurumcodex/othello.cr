@@ -66,8 +66,10 @@ module Othello
         else
           m = game.player.get_input(cells, human)
           game.apply(game.player.color, m, debug)
-          movelist.each do |m|
-            game.flip_discs(game.player.color, m.direction.invert, m.cell, debug)
+          movelist.each do |mv|
+            if mv.cell == m
+              game.flip_discs(game.player.color, mv.direction.invert, mv.cell, debug)
+            end
           end
         end
       elsif current_player.white?
@@ -100,9 +102,9 @@ module Othello
           puts "bot generated move: #{Util.shorten(game.bot.color)} #{Util.get_col(m)} #{Util.get_row(m)}"
           game.apply(game.bot.color, m, debug)
 
-          movelist.each do |m|
-            if m.cell == m
-              game.flip_discs(game.bot.color, m.direction.invert, m.cell, debug)
+          movelist.each do |mv|
+            if mv.cell == m
+              game.flip_discs(game.bot.color, mv.direction.invert, mv.cell, debug)
             end
           end
         end
